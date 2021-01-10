@@ -1,0 +1,14 @@
+debug/
+release/
+bin/
+obj/
+.vs/
+*.dll
+*.exe
+*.pdb
+*.props
+*.targets
+*.cache
+*.CopyComplete
+*.xml
+*.suo
