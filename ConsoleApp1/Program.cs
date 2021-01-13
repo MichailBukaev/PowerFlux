@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,28 +11,34 @@ namespace ConsoleApp1
   {
     static async Task Main(string[] args)
     {
-      using (var c = new UserContext())
-      {
-        var user = new User
-        {
-          Name = "Tom",
-          Age = 10
-        };
-        c.Users.Add(user);
-        await c.SaveChangesAsync();
-        var tom = await c.GetEntityes<User>().FirstOrDefaultAsync(u => u.Name == "Tom");
-        Console.WriteLine(c.Entry(tom).State);
-        tom.Name = "Ivan";
-        //c.Entry(tom).State = EntityState.Modified;
-        Console.WriteLine(c.Entry(tom).State);
-        await c.SaveChangesAsync();
-        Console.WriteLine(c.Entry(tom).State);
-        var usersAsync = await c.Users.ToListAsync();
-        //Console.ReadLine();
-        await RefreshAll(c);
-        usersAsync = await c.Users.ToListAsync();
-        await c.SaveChangesAsync();
+      //using (var c = new UserContext())
+      //{
+      //  var user = new User
+      //  {
+      //    Name = "Tom",
+      //    Age = 10,
+      //  };
+      //  user.Cars = new List<Car>
+      //  {
+      //    new Car{Model = "BMW", User = user}
+      //  };
+      //  c.Users.Add(user);
+      //  await c.SaveChangesAsync();
+      //}
 
+      using (var context = new UserContext())
+      {
+        var users = await context.Users.ToListAsync();
+        foreach (var user in users)
+        {
+          Console.WriteLine($"User {user.Id} - {user.Name}");
+          foreach (var item in user.Cars)
+          {
+            Console.WriteLine($"  Car {item.Id} - {item.Model}");
+          }
+        }
+        var car = await context.Cars.FirstOrDefaultAsync();
+        Console.WriteLine($"Car user {car.User.Name}");
       }
 
 
@@ -44,24 +51,34 @@ namespace ConsoleApp1
         await entity.ReloadAsync();
       }
     }
-    public class  User
+  }
+  public class User
+  {
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public virtual ICollection<Car> Cars { get; set; }
+    public User()
     {
-      public int Id { get; set; }
-      public string Name { get; set; }
-      public int Age { get; set; }
+      Cars = new List<Car>();
     }
+  }
+  public class Car
+  {
+    public int Id { get; set; }
+    public string Model { get; set; }
+    public virtual User User { get; set; }
+  }
 
-    public class UserContext : DbContext
+  public class UserContext : DbContext
+  {
+    public UserContext()
+      : base("Server=.;Database=test_ssss;Trusted_Connection=True;")
     {
-      public UserContext()
-        : base("Server=.;Database=test_ssss;Trusted_Connection=True;")
-      {
-
-      }
-      public DbSet<User> Users { get; set; }
-
-      public IQueryable<T> GetEntityes<T>() where T: class => Set<T>();
     }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Car> Cars { get; set; }
 
+    public IQueryable<T> GetEntityes<T>() where T : class => Set<T>();
   }
 }
