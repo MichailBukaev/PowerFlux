@@ -1,8 +1,8 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Core;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using PowerFlux.Db.DbContexts;
 using PowerFlux.Db.ModelsDb;
 using PowerFlux.Db.Repositories.Interfaces;
 
@@ -10,7 +10,7 @@ namespace PowerFlux.Db.Repositories
 {
   public class SettingsRepository : BaseRepository<DbSetting>, ISettingsRepository
   {
-    public SettingsRepository(IConfiguration configuration) : base(configuration)
+    public SettingsRepository(DbContextOptions<PowerFluxContext> dbContextOptions) : base(dbContextOptions)
     {
     }
 
@@ -23,7 +23,7 @@ namespace PowerFlux.Db.Repositories
       {
         var setting = await dbSet.FirstOrDefaultAsync(s => s.Id.Equals(id));
         if (setting == null)
-          throw new ObjectNotFoundException($"Setting wit id {id} not found");
+          throw new Exception($"Setting wit id {id} not found");
 
         setting.Value = value;
         return setting;

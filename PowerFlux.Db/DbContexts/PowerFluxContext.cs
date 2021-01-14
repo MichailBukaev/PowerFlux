@@ -1,18 +1,21 @@
-﻿using System.Data.Entity;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using PowerFlux.Db.ModelsDb;
 
 namespace PowerFlux.Db.DbContexts
 {
-  internal class PowerFluxContext : DbContext
+  public class PowerFluxContext : DbContext
   {
-    internal PowerFluxContext(IConfiguration configuration)
-    : base(configuration.GetConnectionString("Database"))
+    public DbSet<DbSetting> Settings { get; set; }
+    public DbSet<DbAlloyingElement> AlloyingElements { get; set; }
+
+    internal PowerFluxContext(DbContextOptions<PowerFluxContext> options)
+      :base(options)
     {
-      Database.SetInitializer<PowerFluxContext>(new PowerFluxContextInitializer());
     }
 
-    private DbSet<DbSetting> Settings { get; set; }
-    private DbSet<DbAlloyingElement> AlloyingElements {get; set;}
-  }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Seed();
+		}
+	}
 }

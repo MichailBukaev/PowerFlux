@@ -44,7 +44,7 @@ namespace PowerFlux
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
-      builder.RegisterModule(new AutofacModule());
+      builder.RegisterModule(new AutofacModule(Configuration));
     }
   }
 }

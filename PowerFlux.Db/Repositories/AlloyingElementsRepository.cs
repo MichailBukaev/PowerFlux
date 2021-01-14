@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using PowerFlux.Db.DbContexts;
 using PowerFlux.Db.ModelsDb;
 
 namespace PowerFlux.Db.Repositories
 {
   public class AlloyingElementsRepository : BaseRepository<DbAlloyingElement>
   {
-    public AlloyingElementsRepository(IConfiguration configuration) : base(configuration)
+    public AlloyingElementsRepository(DbContextOptions<PowerFluxContext> dbContextOptions) : base(dbContextOptions)
     {
     }
   }

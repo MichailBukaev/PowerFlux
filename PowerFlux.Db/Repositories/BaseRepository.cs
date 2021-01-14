@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 using PowerFlux.Db.DbContexts;
 using PowerFlux.Db.ModelsDb.Interfaces;
 
@@ -12,27 +10,27 @@ namespace PowerFlux.Db.Repositories
 {
   public abstract class BaseRepository<TEntity> where TEntity : DbEntity
   {
-    private readonly IConfiguration _configuration;
-
-    protected BaseRepository(IConfiguration configuration)
+    private readonly DbContextOptions<PowerFluxContext> _dbContextOptions;
+    protected BaseRepository(DbContextOptions<PowerFluxContext> dbContextOptions)
     {
-      _configuration = configuration;
+      _dbContextOptions = dbContextOptions;
     }
 
     protected async Task<IEnumerable<TEntity>> GetDbEntitiesAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> predicate)
     {
       IEnumerable<TEntity> result;
-      using (var context = new PowerFluxContext(_configuration))
+      using (var context = new PowerFluxContext(_dbContextOptions))
       {
         result = await predicate(context.Set<TEntity>()).ToListAsync();
       }
+
       return result;
     }
 
     protected async Task<TEntity> GetDbEntityAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> predicate)
     {
       TEntity result;
-      using (var context = new PowerFluxContext(_configuration))
+      using (var context = new PowerFluxContext(_dbContextOptions))
       {
         result = await predicate(context.Set<TEntity>()).FirstOrDefaultAsync();
       }
@@ -54,7 +52,7 @@ namespace PowerFlux.Db.Repositories
     private async Task<T> ChangeAsync<T>(Func<DbSet<TEntity>, Task<T>> func)
     {
       T result;
-      using (var context = new PowerFluxContext(_configuration))
+      using (var context = new PowerFluxContext(_dbContextOptions))
       {
         var transaction = context.Database.BeginTransaction();
         try
