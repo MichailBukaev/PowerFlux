@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -61,6 +62,11 @@ namespace PowerFlux.Db.Repositories
           result = await func(context.Set<TEntity>());
           await context.SaveChangesAsync();
           transaction.Commit();
+        }
+        catch (DbUpdateConcurrencyException e)
+        {
+          transaction.Rollback();
+          throw new Exception("The object has already been changed before");
         }
         catch (Exception e)
         {
