@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerFlux.Db", "PowerFlux.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerFlux.UnitTests", "PowerFlux.UnitTests\PowerFlux.UnitTests.csproj", "{01F33447-042F-4BD1-9593-D45710D51655}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{FAF6DF27-CF3B-4373-919A-F74FA41C27BA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{01F33447-042F-4BD1-9593-D45710D51655}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01F33447-042F-4BD1-9593-D45710D51655}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01F33447-042F-4BD1-9593-D45710D51655}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAF6DF27-CF3B-4373-919A-F74FA41C27BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAF6DF27-CF3B-4373-919A-F74FA41C27BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAF6DF27-CF3B-4373-919A-F74FA41C27BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAF6DF27-CF3B-4373-919A-F74FA41C27BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

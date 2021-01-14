@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using PowerFlux.Db.DbContexts;
-using PowerFlux.Db.DbContexts.Interfaces;
-using PowerFlux.Db.Deploy;
+using PowerFlux.Db.Repositories;
+using PowerFlux.Db.Repositories.Interfaces;
 
 namespace PowerFlux
 {
@@ -9,12 +8,14 @@ namespace PowerFlux
   {
     protected override void Load(ContainerBuilder builder)
     {
-      builder.RegisterType<DeployService>().As<IDeployService>().InstancePerLifetimeScope();
+      //builder.RegisterType<DeployService>().As<IDeployService>().InstancePerLifetimeScope();
 
-      builder.RegisterType<DbVersionContext>().As<IDbVersionContext>().InstancePerLifetimeScope();
-      builder.RegisterType<AlloyingElementContext>().As<IAlloyingElementContext>();
-      builder.RegisterType<AlloyingElementPartialTransformationEquationContext>().As<IAlloyingElementPartialTransformationEquationContext>();
-      builder.RegisterType<SettingsContext>().As<ISettingsContext>();
+      //builder.RegisterType<DbVersionContext>().As<IDbVersionContext>().InstancePerLifetimeScope();
+      //builder.RegisterType<AlloyingElementContext>().As<IAlloyingElementContext>();
+      //builder.RegisterType<AlloyingElementPartialTransformationEquationContext>().As<IAlloyingElementPartialTransformationEquationContext>();
+      //builder.RegisterType<SettingsContext>().As<ISettingsContext>();
+      builder.RegisterType<SettingsRepository>().As<ISettingsRepository>();
+      ;
     }
   }
 }

@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PouwerFlux.Data\PouwerFlux.Context.csproj" />
     <ProjectReference Include="..\PowerFlux.Db\PowerFlux.Db.csproj" />
   </ItemGroup>
 
